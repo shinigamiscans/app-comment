@@ -14,4 +14,9 @@ const router = createRouter({
   routes,
 });
 
+router.beforeEach((to, from, next) => {
+  document.title = 'Shinigami'; // Set the page title for all routes
+  next();
+});
+
 createApp(App).use(router).mount('#app');
