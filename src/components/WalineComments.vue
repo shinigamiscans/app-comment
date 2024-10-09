@@ -21,7 +21,7 @@ import { useRoute } from 'vue-router';
 import 'waline-client/waline.css';
 
 // Define configuration values as constants
-const serverURL = 'https://hub.shngm.io';
+const serverURL = 'https://komen-api.shngm.id';
 const lang = 'en';
 const path = computed(() => useRoute().query.id || '1'); // Dynamic path from query params
 const dark = 'auto';
