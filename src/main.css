@@ -92,8 +92,8 @@
     body {
       --waline-box-shadow: 0 12px 40px #0f0e0d;
       --waline-bg-color: #26324D !important;
-      --waline-color: #888 !important;
-      --waline-border-color: #26324D !important;
+      --waline-color: #fff !important;
+      --waline-border-color: #fff !important;
       --waline-white: #fff !important;
       --waline-theme-color: #6027DA !important;
       --waline-active-color: #6027DA !important;
