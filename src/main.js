@@ -1,4 +1,4 @@
-import './main.css'; // Ensure this is imported at the top of the file
+import './output.css'; // Ensure this is imported at the top of the file
 
 import { createApp } from 'vue';
 import App from './App.vue';
