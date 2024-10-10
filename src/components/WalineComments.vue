@@ -19,6 +19,7 @@ import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 
 import 'waline-client/waline.css';
+import 'waline-client/waline-meta.css';
 
 // Define configuration values as constants
 const serverURL = 'https://komen-api.shngm.id';
