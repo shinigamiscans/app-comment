@@ -96,23 +96,18 @@ const emoji = [
 // Define the image uploader function
 const imageUploader = (file) => {
   let formData = new FormData();
-  formData.append('file', file); // BeeIMG requires 'file' key for the image
-  formData.append('apikey', 'b25dd90b02c52a7954402d62cff88193'); // Add the API key field
+  formData.append('file', file); // Adjust the field to 'file' instead of 'image'
+  formData.append('apikey', 'b25dd90b02c52a7954402d62cff88193'); // BeeIMG API key
 
   return fetch('https://beeimg.com/api/upload/file/json/', {
     method: 'POST',
     body: formData,
   })
     .then((resp) => resp.json())
-    .then((resp) => {
-      if (resp.status === 'OK') {
-        return resp.image.url; // Return the image URL
-      } else {
-        throw new Error('Image upload failed');
-      }
-    })
+    .then((resp) => resp.files.url) // Adjust to extract 'url' from the 'files' object
     .catch((err) => {
-      console.error('Error uploading image:', err);
+      console.error('Image upload failed', err);
+      throw err; // Handle errors
     });
 };
 </script>
