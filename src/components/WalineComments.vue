@@ -96,15 +96,24 @@ const emoji = [
 // Define the image uploader function
 const imageUploader = (file) => {
   let formData = new FormData();
-  formData.append('file', file);
-  formData.append('api_key', '9rVjdxPlrX9rQc5vBnlOqVDbFtBe10PP');
+  formData.append('file', file); // Change 'image' to 'file' as per ImgHippo's API documentation
+  formData.append('api_key', '9rVjdxPlrX9rQc5vBnlOqVDbFtBe10PP'); // Add the API key field
 
   return fetch('https://www.imghippo.com/v1/upload', {
     method: 'POST',
     body: formData,
   })
     .then((resp) => resp.json())
-    .then((resp) => resp.data.url);
+    .then((resp) => {
+      if (resp.success) {
+        return resp.data.url; // Return the direct image URL
+      } else {
+        throw new Error('Image upload failed');
+      }
+    })
+    .catch((err) => {
+      console.error('Error uploading image:', err);
+    });
 };
 </script>
 
