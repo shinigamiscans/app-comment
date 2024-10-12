@@ -96,17 +96,17 @@ const emoji = [
 // Define the image uploader function
 const imageUploader = (file) => {
   let formData = new FormData();
-  formData.append('file', file); // Change 'image' to 'file' as per ImgHippo's API documentation
-  formData.append('api_key', '9rVjdxPlrX9rQc5vBnlOqVDbFtBe10PP'); // Add the API key field
+  formData.append('file', file); // BeeIMG requires 'file' key for the image
+  formData.append('apikey', 'b25dd90b02c52a7954402d62cff88193'); // Add the API key field
 
-  return fetch('https://www.imghippo.com/v1/upload', {
+  return fetch('https://beeimg.com/api/upload/file/json/', {
     method: 'POST',
     body: formData,
   })
     .then((resp) => resp.json())
     .then((resp) => {
-      if (resp.success) {
-        return resp.data.url; // Return the direct image URL
+      if (resp.status === 'OK') {
+        return resp.image.url; // Return the image URL
       } else {
         throw new Error('Image upload failed');
       }
