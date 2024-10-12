@@ -97,9 +97,9 @@ const emoji = [
 const imageUploader = (file) => {
   let formData = new FormData();
   formData.append('image', file);
-  formData.append('key', 'd8dc5b96ed210c8360b48acb0fa5ee32');
+  formData.append('key', '9rVjdxPlrX9rQc5vBnlOqVDbFtBe10PP');
 
-  return fetch('https://api.imgbb.com/1/upload', {
+  return fetch('https://www.imghippo.com/v1/upload', {
     method: 'POST',
     body: formData,
   })
