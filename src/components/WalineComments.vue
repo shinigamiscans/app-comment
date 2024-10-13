@@ -17,17 +17,35 @@
 import { Waline } from 'waline-client/component';
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
+import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
 
 import 'waline-client/waline.css';
 import 'waline-client/waline-meta.css';
 
 // Define configuration values as constants
+const s3Client = new S3Client({
+    region: process.env.VUE_APP_S3_REGION,
+    endpoint: process.env.VUE_APP_S3_ENDPOINT,
+    credentials: {
+        accessKeyId: process.env.VUE_APP_S3_ACCESS_KEY_ID,
+        secretAccessKey: process.env.VUE_APP_S3_SECRET_ACCESS_KEY,
+    },
+    forcePathStyle: true,
+});
+
+// Define the custom domain from environment variables
+const customDomain = process.env.VUE_APP_CUSTOM_DOMAIN;
+
+const generateRandomString = () => {
+    return Math.random().toString(36).substring(2, 10); // Generate a random 8-character string
+};
+
 const serverURL = 'https://komen-api.shngm.id';
 const lang = 'en';
 const path = computed(() => useRoute().query.id || '1'); // Dynamic path from query params
 const dark = 'auto';
 
-// Define custom locale settings
+// Define custom locale settings (this is unchanged)
 const locale = {
   nick: 'Nickname',
   nickError: 'Nickname tidak boleh kurang dari 3 digit.',
@@ -80,7 +98,7 @@ const locale = {
   reactionTitle: 'Gimana Menurutmu?',
 };
 
-// Define reaction and emoji arrays
+// Define reaction and emoji arrays (this is unchanged)
 const reaction = [
   'https://cdn.discordapp.com/emojis/954256341944397864.webp',
   'https://cdn.discordapp.com/emojis/1029399978583539742.webp',
@@ -93,22 +111,32 @@ const emoji = [
   'https://cdn.jsdelivr.net/gh/sugarlessmuffins/papanmoji@v.0.0.1/',
 ];
 
-// Define the image uploader function
-const imageUploader = (file) => {
-  let formData = new FormData();
-  formData.append('file', file); // Adjust the field to 'file' instead of 'image'
-  formData.append('apikey', 'b25dd90b02c52a7954402d62cff88193'); // BeeIMG API key
+// Define the imageUploader function (this is unchanged)
+const imageUploader = async (file) => {
+    const randomHash = generateRandomString();
+    const fileExtension = file.name.split('.').pop(); // Extract the file extension
+    
+    const key = `comment/${randomHash}.${fileExtension}`;
+    
+    const uploadParams = {
+        Bucket: 'backup', // Replace with your actual bucket name
+        Key: key,
+        Body: file, // Directly pass the file blob
+        ACL: 'public-read', // Make it publicly readable
+        ContentType: file.type, // Set the correct content type
+    };
 
-  return fetch('https://beeimg.com/api/upload/file/json/', {
-    method: 'POST',
-    body: formData,
-  })
-    .then((resp) => resp.json())
-    .then((resp) => resp.files.url) // Adjust to extract 'url' from the 'files' object
-    .catch((err) => {
-      console.error('Image upload failed', err);
-      throw err; // Handle errors
-    });
+    try {
+        const command = new PutObjectCommand(uploadParams);
+        await s3Client.send(command);
+
+        const fileUrl = `${customDomain}/${key}`;
+        console.log('File uploaded successfully:', fileUrl);
+        return fileUrl;
+    } catch (err) {
+        console.error('Image upload failed:', err);
+        throw err;
+    }
 };
 </script>
 

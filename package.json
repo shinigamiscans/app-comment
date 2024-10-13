@@ -8,6 +8,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.670.0",
     "@waline/client": "^3.3.2",
     "core-js": "^3.8.3",
     "vue": "^3.2.13",
