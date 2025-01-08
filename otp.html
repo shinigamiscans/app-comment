@@ -1,12 +1,12 @@
 <body style="margin: 0;padding: 0;font-family: Arial, sans-serif;background-color: #18181b;color: #ffffff;">
-    <div class="email-container" style="display: flex;justify-content: center;align-items: center;min-height: 100vh;padding: 20px;">
-        <div class="email-card" style="background-color: #27272a;border-radius: 8px;padding: 20px;max-width: 400px;box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-            <h2 style="margin-top: 0;color: #ffffff;">OTP Anda</h2>
+    <div class="email-container" style="display: flex;justify-content: center;align-items: center;min-height: 100vh;padding: 20px;box-sizing: border-box;">
+        <div class="email-card" style="background-color: #27272a;border-radius: 8px;padding: 20px;width: 100%;max-width: 400px;box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);box-sizing: border-box;">
+            <h2 style="margin-top: 0;color: #ffffff;text-align: center;">OTP Anda</h2>
 
             <p style="margin: 0 0 10px;color: #d4d4d8;">Masukkan OTP berikut untuk Login: 
             <span class="otp" style="font-weight: bold;color: #ffffff;">{{ .Token }}</span></p>
 
-            <p style="margin: 0 0 10px;color: #d4d4d8;">Debug: {{ .RedirectTo }}</p>
+            <p style="margin: 0 0 10px;color: #d4d4d8;">Debug: <a href="{{ .RedirectTo }}" style="color: #6ee7b7;text-decoration: none;">{{ .RedirectTo }}</a></p>
         </div>
     </div>
 </body>
